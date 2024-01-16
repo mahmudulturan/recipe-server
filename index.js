@@ -27,6 +27,17 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
 
+        // collections
+        const RecipeCollection = client.db("recipeRover").collection("recrecipeCollection")
+
+
+        // endpoint for get all recipe
+        app.get('/all-recipe', async (req, res) => {
+            const allRecipe = await RecipeCollection.find().toArray();
+            res.send(allRecipe);
+        })        
+
+
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
