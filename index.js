@@ -52,6 +52,22 @@ async function run() {
             res.send(result)
         })
 
+        app.put('/update-recipe/:id', async (req, res) => {
+            const id = req.params.id;
+            const data = req.body;
+            const filter = { _id: new ObjectId(id) }
+            const updatedDoc = {
+                $set: {
+                    title: data.title,
+                    image: data.image,
+                    ingredients: data.ingredients,
+                    instructions: data.instructions
+                }
+            }
+            const result = await RecipeCollection.updateOne(filter, updatedDoc)
+            res.send(result);
+        })
+
         //endpoint for post new recipe
         app.delete('/delete-recipe/:id', async (req, res) => {
             const id = req.params.id;
