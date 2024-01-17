@@ -33,10 +33,16 @@ async function run() {
 
         // endpoint for get all recipe
         app.get('/all-recipe', async (req, res) => {
-            const allRecipe = await RecipeCollection.find().toArray();
-            res.send(allRecipe);
-        })        
+            const result = await RecipeCollection.find().toArray();
+            res.send(result);
+        })
 
+        //endpoint for post new recipe
+        app.post('/add-recipe', async (req, res) => {
+            const data = req.body;
+            const result = await RecipeCollection.insertOne(data);
+            res.send(result)
+        })
 
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
