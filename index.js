@@ -33,9 +33,20 @@ async function run() {
 
         // endpoint for get all recipe
         app.get('/all-recipe', async (req, res) => {
-            const result = await RecipeCollection.find().toArray();
+            const { searchKey } = req.query;
+            let query = {};
+            if (searchKey) {
+                query = {
+                    $or: [
+                        { title: { $regex: new RegExp(searchKey, 'i') } },
+                        { ingredients: { $regex: new RegExp(searchKey, 'i') } }
+                    ]
+                };
+            }
+            const result = await RecipeCollection.find(query).toArray();
             res.send(result);
-        })
+        });
+
 
         // endpoint for get a recipe
         app.get('/all-recipe/:id', async (req, res) => {
